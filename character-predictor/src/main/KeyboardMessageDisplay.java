@@ -43,25 +43,25 @@ public class KeyboardMessageDisplay {
 		LogiLED.LogiLedSetLightingForKeyWithKeyName(LetterToKeyboardValue(character), redPercentage, greenPercentage, bluePercentage);
 	}
 	
-	public void showHeart() {
-		LogiLED.LogiLedPulseSingleKey(LogiLED.SPACE, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-		LogiLED.LogiLedPulseSingleKey(LogiLED.N, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-		LogiLED.LogiLedPulseSingleKey(LogiLED.J, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-		LogiLED.LogiLedPulseSingleKey(LogiLED.I, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-		LogiLED.LogiLedPulseSingleKey(LogiLED.EIGHT, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-//		LogiLED.LogiLedPulseSingleKey(LogiLED.SEVEN, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-		LogiLED.LogiLedPulseSingleKey(LogiLED.Y, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-//		LogiLED.LogiLedPulseSingleKey(LogiLED.SIX, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-		LogiLED.LogiLedPulseSingleKey(LogiLED.FIVE, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-		LogiLED.LogiLedPulseSingleKey(LogiLED.R, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-		LogiLED.LogiLedPulseSingleKey(LogiLED.F, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-		LogiLED.LogiLedPulseSingleKey(LogiLED.V, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
+	public void showHeart(boolean show) {
+		LogiLED.LogiLedPulseSingleKey(LogiLED.SPACE, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+		LogiLED.LogiLedPulseSingleKey(LogiLED.N, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+		LogiLED.LogiLedPulseSingleKey(LogiLED.J, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+		LogiLED.LogiLedPulseSingleKey(LogiLED.I, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+		LogiLED.LogiLedPulseSingleKey(LogiLED.EIGHT, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+//		LogiLED.LogiLedPulseSingleKey(LogiLED.SEVEN, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+		LogiLED.LogiLedPulseSingleKey(LogiLED.Y, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+//		LogiLED.LogiLedPulseSingleKey(LogiLED.SIX, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+		LogiLED.LogiLedPulseSingleKey(LogiLED.FIVE, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+		LogiLED.LogiLedPulseSingleKey(LogiLED.R, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+		LogiLED.LogiLedPulseSingleKey(LogiLED.F, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+		LogiLED.LogiLedPulseSingleKey(LogiLED.V, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 
-		LogiLED.LogiLedPulseSingleKey(LogiLED.U, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-		LogiLED.LogiLedPulseSingleKey(LogiLED.H, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-		LogiLED.LogiLedPulseSingleKey(LogiLED.B, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-		LogiLED.LogiLedPulseSingleKey(LogiLED.G, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
-		LogiLED.LogiLedPulseSingleKey(LogiLED.T, 0, 0, 0, 100, 0, 0, PULSEDURATION, true);
+		LogiLED.LogiLedPulseSingleKey(LogiLED.U, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+		LogiLED.LogiLedPulseSingleKey(LogiLED.H, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+		LogiLED.LogiLedPulseSingleKey(LogiLED.B, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+		LogiLED.LogiLedPulseSingleKey(LogiLED.G, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
+		LogiLED.LogiLedPulseSingleKey(LogiLED.T, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		
 	}
 	
