@@ -1,7 +1,5 @@
 package ch.lauzhack;
 
-import java.util.Comparator;
-
 /**
  * Created by Loic on 19.11.2016.
  */

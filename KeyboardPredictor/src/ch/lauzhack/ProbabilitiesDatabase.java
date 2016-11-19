@@ -96,7 +96,7 @@ public class ProbabilitiesDatabase {
 		if (totalCount == null) {
 			throw new IllegalStateException("Unknown error");
 		}
-		System.out.println(ngram + ": count: " + ngramCount + "; total: " + totalCount);
+		//System.out.println(ngram + ": count: " + ngramCount + "; total: " + totalCount);
 		return (double) ngramCount / (double) totalCount;
 	}
 
