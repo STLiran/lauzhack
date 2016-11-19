@@ -1,12 +1,18 @@
 package ch.lauzhack;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.TreeMap;
+
+import org.json.JSONObject;
 
 public class ProbabilitiesDatabase {
 
@@ -19,7 +25,7 @@ public class ProbabilitiesDatabase {
 		this.maxN = maxN;
 	}
 
-	public void initialize(String filename) {
+	public void loadTextFile(String filename) {
 		System.out.println("Begin to load " + filename);
 		BufferedReader bufferedReader = null;
 		try {
@@ -96,8 +102,82 @@ public class ProbabilitiesDatabase {
 		if (totalCount == null) {
 			throw new IllegalStateException("Unknown error");
 		}
-		System.out.println(ngram + ": count: " + ngramCount + "; total: " + totalCount);
 		return (double) ngramCount / (double) totalCount;
+	}
+
+	public void createSave(String filename) {
+		BufferedWriter bufferedWriter = null;
+		try {
+			final File file = new File(filename);
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			bufferedWriter = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
+			final JSONObject jsonObject = new JSONObject();
+			jsonObject.put("maxN", maxN);
+			final JSONObject ngramCountsJsonObject = new JSONObject();
+			for (Entry<String, Long> entry : ngramCounts.entrySet()) {
+				ngramCountsJsonObject.put(entry.getKey(), entry.getValue());
+			}
+			jsonObject.put("ngramCounts", ngramCountsJsonObject);
+			final JSONObject totalCountsJsonObject = new JSONObject();
+			for (Entry<Integer, Long> entry : totalCounts.entrySet()) {
+				totalCountsJsonObject.put("" + entry.getKey(), entry.getValue());
+			}
+			jsonObject.put("totalCounts", totalCountsJsonObject);
+			bufferedWriter.write(jsonObject.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				bufferedWriter.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void loadSave(String filename) {
+		BufferedReader bufferedReader = null;
+		try {
+			bufferedReader = new BufferedReader(new FileReader(filename));
+			String read = bufferedReader.readLine();
+			final JSONObject jsonObject = new JSONObject(read);
+			final int loadedMaxN = jsonObject.getInt("maxN");
+			if (loadedMaxN < maxN) {
+				throw new IllegalArgumentException();
+			}
+			final JSONObject ngramCountsJsonObject = jsonObject.getJSONObject("ngramCounts");
+			for (Object key : ngramCountsJsonObject.keySet()) {
+				final String ngram = (String) key;
+				final long count = ngramCountsJsonObject.getLong(ngram);
+				ngramCounts.put(ngram, count);
+			}
+			final JSONObject totalCountsJsonObject = jsonObject.getJSONObject("totalCounts");
+			for (Object key : totalCountsJsonObject.keySet()) {
+				final String n = (String) key;
+				final long count = totalCountsJsonObject.getLong(n);
+				totalCounts.put(Integer.parseInt(n), count);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				bufferedReader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void loadOrCreate(String textFilename, String saveFilename) {
+		final File saveFile = new File(saveFilename);
+		if (saveFile.exists()) {
+			loadSave(saveFilename);
+		} else {
+			loadTextFile(textFilename);
+			createSave(saveFilename);
+		}
 	}
 
 }

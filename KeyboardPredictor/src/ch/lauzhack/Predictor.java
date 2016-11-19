@@ -15,7 +15,8 @@ public class Predictor {
     public Predictor(int n) {
         this.probs = new ProbabilitiesDatabase(n);
         this.n = n;
-        probs.initialize("big.txt");
+        probs.loadTextFile("big.txt");
+        probs.loadOrCreate("big.txt", "save.txt");
     }
 
     public double computeProbability(String prev, char next) {
