@@ -20,7 +20,7 @@ public class Predictor {
     }
 
     public double computeProbability(String prev, char next) {
-        return probs.getNgramProbabilities(prev + next)/probs.getNgramProbabilities(String.valueOf(next));
+        return probs.getNgramProbabilities(prev + next)/probs.getNgramProbabilities(prev);
     }
 
     public List<CharProbPair> getNextChar(String text) {
@@ -29,7 +29,7 @@ public class Predictor {
             return Collections.emptyList();
         }
 
-        String last = text.substring(Math.max(0, text.length() - (n - 1)), text.length() - 1);
+        String last = text.substring(Math.max(0, text.length() - (n - 1)), text.length());
 
         List<CharProbPair> letters = new ArrayList<>();
         for (char c : alphabet.toCharArray()) {

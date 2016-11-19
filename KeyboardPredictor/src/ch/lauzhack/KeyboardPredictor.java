@@ -6,27 +6,30 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 public class KeyboardPredictor {
 	public static void main(String[] args) {
-		KeyboardMessageDisplay keyboard = new KeyboardMessageDisplay();
-		Predictor predictor = new Predictor(10);
-
-		char last = ' ';
-		char read = ' ';
-		String text = "";
 
 		LogiLED.LogiLedInit();
 		LogiLED.LogiLedSetLighting(0, 0, 0);
+		KeyboardMessageDisplay keyboard = new KeyboardMessageDisplay();
+		Predictor predictor = new Predictor(10);
+
+		char read = ' ';
+		String text = "";
+        List<CharProbPair> active = new ArrayList<>();
 
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
 
         //BTDetector bt = new BTDetector();
 
-		while (read != 'q') {
+		while (read != '0') {
             try {
                 read = (char)input.read();
+                if (read == '\r' || read == '\n')
+                    continue;
             } catch (IOException e) {
                 break;
             }
@@ -34,17 +37,24 @@ public class KeyboardPredictor {
             text += read;
 
             List<CharProbPair> letters = predictor.getNextChar(text);
-            char key = letters.get(0).getChar();
 
-            keyboard.ShowLetter(key, 100, 0, 0);
-            keyboard.ShowLetter(last, 100, 0, 0);
+            // Turn off old keys
+            for (CharProbPair old : active) {
+                keyboard.ShowLetter(old.getChar(), 0, 0, 0);
+            }
 
-            last = key;
+            active = letters.subList(0, 3);
+
+            // Turn on new keys
+            int intensity = 100;
+            for (CharProbPair key : active) {
+                keyboard.ShowLetter(key.getChar(), intensity, 0, 0);
+                intensity -= 33;
+            }
 
             for (CharProbPair pair : letters) {
                 System.out.print(String.format("%s (%.2f)", pair.getChar(), pair.getProbability()));
             }
-            System.out.println();
         }
 	}
 }
