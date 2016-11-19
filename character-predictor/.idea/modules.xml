@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/character-predictor.iml" filepath="$PROJECT_DIR$/.idea/modules/character-predictor.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/character-predictor-build.iml" filepath="$PROJECT_DIR$/.idea/modules/character-predictor-build.iml" />
-      <module fileurl="file://$PROJECT_DIR$/predictor/predictor.iml" filepath="$PROJECT_DIR$/predictor/predictor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/character-predictor-4.iml" filepath="$PROJECT_DIR$/character-predictor-4.iml" />
     </modules>
   </component>
 </project>
