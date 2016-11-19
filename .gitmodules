@@ -1,3 +1,6 @@
 [submodule "proxi/iBeacon-AndroidScala"]
 	path = proxi/iBeacon-AndroidScala
 	url = https://github.com/shokai/iBeacon-AndroidScala.git
+[submodule "iBeacon-Scanner-"]
+	path = iBeacon-Scanner-
+	url = https://github.com/switchdoclabs/iBeacon-Scanner-.git
