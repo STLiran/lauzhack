@@ -75,6 +75,8 @@ public class KeyboardMessageDisplay {
 	}
 	
 	public int LetterToKeyboardValue(char c) {
+		if(c == ' ')
+			return LogiLED.SPACE;
 		if(c <= 90 && c >= 65) {
 			c += 32;
 		}
