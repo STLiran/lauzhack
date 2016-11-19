@@ -27,7 +27,7 @@ class ProbabilitiesDatabase(maxN: Int) {
   }
 
   def initialize(filename: String): Any = {
-    //val response: HttpResponse[String] = Http("http://foo.com/search").param("q","monkeys").asString
+    println("Loading " + filename)
     val queue = new scala.collection.mutable.Queue[Char]
     Source.fromFile(filename).getLines().foreach(line => {
       line.iterator.foreach(char => {
@@ -46,6 +46,7 @@ class ProbabilitiesDatabase(maxN: Int) {
         }
       })
     })
+    println("Loaded " + filename)
   }
 
   def getNgramProbabilities(ngram: String): Double = {
