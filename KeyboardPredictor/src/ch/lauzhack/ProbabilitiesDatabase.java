@@ -96,7 +96,7 @@ public class ProbabilitiesDatabase {
 		if (totalCount == null) {
 			throw new IllegalStateException("Unknown error");
 		}
-		return (double) ngramCount / totalCount;
+		return (double) ngramCount / (double) totalCount;
 	}
 
 }
