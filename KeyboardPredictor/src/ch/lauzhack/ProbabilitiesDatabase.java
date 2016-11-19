@@ -138,6 +138,7 @@ public class ProbabilitiesDatabase {
 	}
 
 	public void loadSave(String filename) {
+		System.out.println("begin load save file " + filename);
 		BufferedReader bufferedReader = null;
 		try {
 			bufferedReader = new BufferedReader(new FileReader(filename));
@@ -168,6 +169,7 @@ public class ProbabilitiesDatabase {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("finish load save file " + filename);
 	}
 
 	public void loadOrCreate(String textFilename, String saveFilename) {
