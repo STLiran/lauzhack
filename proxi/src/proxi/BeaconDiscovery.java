@@ -20,12 +20,14 @@ public class BeaconDiscovery {
         DiscoveryListener listener = new DiscoveryListener() {
 
             public void deviceDiscovered(RemoteDevice btDevice, DeviceClass cod) {
-                System.out.println("Device " + btDevice.getBluetoothAddress() + " found");
-                devicesDiscovered.add(btDevice);
-                try {
-                    System.out.println("     name " + btDevice.getFriendlyName(false));
-                } catch (IOException cantGetDeviceName) {
-                }
+            	if (!devicesDiscovered.contains(btDevice)) {
+	                System.out.println("Device " + btDevice.getBluetoothAddress() + " found");
+	                devicesDiscovered.add(btDevice);
+	                try {
+	                    System.out.println("     name " + btDevice.getFriendlyName(false));
+	                } catch (IOException cantGetDeviceName) {
+	                }
+            	}
             }
 
             public void inquiryCompleted(int discType) {
@@ -42,14 +44,15 @@ public class BeaconDiscovery {
             }
         };
 
-        synchronized(inquiryCompletedEvent) {
-            boolean started = LocalDevice.getLocalDevice().getDiscoveryAgent().startInquiry(DiscoveryAgent.GIAC, listener);
-            if (started) {
-                System.out.println("wait for device inquiry to complete...");
-                inquiryCompletedEvent.wait();
-                System.out.println(devicesDiscovered.size() +  " device(s) found");
-            }
+        while (true) {
+	        synchronized(inquiryCompletedEvent) {
+	            boolean started = LocalDevice.getLocalDevice().getDiscoveryAgent().startInquiry(DiscoveryAgent.GIAC, listener);
+	            if (started) {
+	                System.out.println("wait for device inquiry to complete...");
+	                inquiryCompletedEvent.wait();
+	                System.out.println(devicesDiscovered.size() +  " device(s) found");
+	            }
+	        }
         }
     }
-
 }
