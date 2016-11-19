@@ -2,8 +2,6 @@ package ch.lauzhack;
 
 import com.logitech.gaming.LogiLED;
 
-import java.io.Console;
-
 public class KeyboardPredictor {
 	public static void main(String[] args) {
 		LogiLED.LogiLedInit();

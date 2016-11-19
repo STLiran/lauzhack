@@ -15,7 +15,6 @@ public class Predictor {
     public Predictor(int n) {
         this.probs = new ProbabilitiesDatabase(n);
         this.n = n;
-        probs.loadTextFile("big.txt");
         probs.loadOrCreate("big.txt", "save.txt");
     }
 
@@ -24,7 +23,11 @@ public class Predictor {
     }
 
     public double computeProbability(String prev, char next) {
-        return probs.getNgramProbabilities(prev + next)/probs.getNgramProbabilities(prev);
+        double denom = probs.getNgramProbabilities(prev);
+        if (denom <= 0) {
+            return 0;
+        }
+        return probs.getNgramProbabilities(prev + next)/denom;
     }
 
     public List<CharProbPair> getNextChar(String text) {
