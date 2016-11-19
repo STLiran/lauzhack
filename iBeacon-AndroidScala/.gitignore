@@ -1,0 +1,16 @@
+.DS_Store
+*.log
+*~
+*#*
+*.d
+*.class
+.classpath
+.project
+bin
+build.xml
+local.properties
+proguard.cfg
+.settings
+target
+project/target
+tmp

@@ -1,0 +1,34 @@
+=== 0.2.2 2013-05-23
+
+* modify onNear/onFar boundary
+* add onRegion sample app
+* show library version on app title
+
+=== 0.2.1 2013-05-23
+
+* implemented removeListener(event_id)
+* use mutable.Queue to get average of RSSI
+
+=== 0.2.0 2013-05-22
+
+* implemented regions
+  * onRegion(uuid, major, minor, range, callback)
+  * onImmediate(uuid, major, minor, callback)
+  * onNear(uuid, major, minor, callback)
+  * onFar(uuid, major, minor, callback)
+
+=== 0.1.1 2013-05-22
+
+* wrap eventemitter with onDetect and onDiscover methods
+
+=== 0.1.0 2013-05-22
+
+* use eventemitter to dispatch "detect" and "discover" events
+
+=== 0.0.2 2013-05-20
+
+* rename callback "onDetect -> "onDiscover"
+
+=== 0.0.1 2013-05-19
+
+* implemented IBeacon.onDetect(), IBeacon.onBeacon()
