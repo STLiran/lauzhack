@@ -1,13 +1,9 @@
 package main
 
 import scala.io.Source
-import scala.util.matching.Regex
 
 import scala.collection.mutable.HashMap
 
-/**
-  * Created by blueur on 19.11.16.
-  */
 class ProbabilitiesDatabase(maxN: Int) {
 
   var counts = HashMap.empty[String, Long]
@@ -38,11 +34,12 @@ class ProbabilitiesDatabase(maxN: Int) {
             queue.dequeue()
           }
           val ngram = queue.toIterable.mkString("")
-          for (i <- 1 to queue.size) {
-            addNgram(ngram.substring(0, i))
+          val n = queue.size
+          for (i <- 0 until n) {
+            addNgram(ngram.substring(i, n))
           }
         } else {
-          // TODO
+          queue.dequeueAll(_ => true)
         }
       })
     })
@@ -52,18 +49,19 @@ class ProbabilitiesDatabase(maxN: Int) {
   def getNgramProbabilities(ngram: String): Double = {
     val n: Int = ngram.length()
     if (n > maxN) {
-      -1.0
-    } else {
-      counts.get(ngram) match {
-        case Some(ngramCount) =>
-          maxCounts.get(n) match {
-            case Some(maxCount) =>
-              ngramCount.toDouble / maxCount.toDouble
-            case None =>
-              -1.0
-          }
-        case None => -1.0
-      }
+      throw new IllegalArgumentException("the ngram must not be longer than " + maxN)
+    }
+    if (counts.isEmpty || maxCounts.isEmpty) {
+      throw new IllegalStateException("Not initialized")
+    }
+    counts.get(ngram) match {
+      case Some(ngramCount) =>
+        maxCounts.get(n) match {
+          case Some(maxCount) =>
+            ngramCount.toDouble / maxCount.toDouble
+          case None => throw new IllegalStateException("Unknown error");
+        }
+      case None => 0
     }
   }
 
