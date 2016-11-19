@@ -18,6 +18,10 @@ public class Predictor {
         probs.initialize("big.txt");
     }
 
+    public boolean isValidChar(char c) {
+        return alphabet.contains("" + c);
+    }
+
     public double computeProbability(String prev, char next) {
         return probs.getNgramProbabilities(prev + next)/probs.getNgramProbabilities(prev);
     }
