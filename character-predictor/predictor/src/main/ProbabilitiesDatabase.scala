@@ -49,18 +49,19 @@ class ProbabilitiesDatabase(maxN: Int) {
   def getNgramProbabilities(ngram: String): Double = {
     val n: Int = ngram.length()
     if (n > maxN) {
-      throw new IllegalArgumentException("the ngram must not be longer than " + maxN);
-    } else {
-      counts.get(ngram) match {
-        case Some(ngramCount) =>
-          maxCounts.get(n) match {
-            case Some(maxCount) =>
-              ngramCount.toDouble / maxCount.toDouble
-            case None =>
-              throw new IllegalStateException("Not initialized")
-          }
-        case None => throw new IllegalStateException("Not initialized")
-      }
+      throw new IllegalArgumentException("the ngram must not be longer than " + maxN)
+    }
+    if (counts.isEmpty || maxCounts.isEmpty) {
+      throw new IllegalStateException("Not initialized")
+    }
+    counts.get(ngram) match {
+      case Some(ngramCount) =>
+        maxCounts.get(n) match {
+          case Some(maxCount) =>
+            ngramCount.toDouble / maxCount.toDouble
+          case None => throw new IllegalStateException("Unknown error");
+        }
+      case None => 0
     }
   }
 
