@@ -22,9 +22,11 @@ public class KeyboardPredictor {
 
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
 
-		while (read != '\r' && read != '\n') {
+        //BTDetector bt = new BTDetector();
+
+		while (read != 'q') {
             try {
-                read = (char) input.read();
+                read = (char)input.read();
             } catch (IOException e) {
                 break;
             }
