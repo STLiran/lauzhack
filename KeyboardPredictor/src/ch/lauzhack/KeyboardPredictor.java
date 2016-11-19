@@ -11,15 +11,15 @@ import java.util.List;
 
 public class KeyboardPredictor {
 	public static void main(String[] args) {
+
+		LogiLED.LogiLedInit();
+		LogiLED.LogiLedSetLighting(0, 0, 0);
 		KeyboardMessageDisplay keyboard = new KeyboardMessageDisplay();
 		Predictor predictor = new Predictor(10);
 
 		char read = ' ';
 		String text = "";
         List<CharProbPair> active = new ArrayList<>();
-
-		LogiLED.LogiLedInit();
-		LogiLED.LogiLedSetLighting(0, 0, 0);
 
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
 
