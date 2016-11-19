@@ -33,13 +33,16 @@ public class BackgroundListener implements KeyListener {
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         char read = Character.toLowerCase((char)keyEvent.getVirtualKeyCode());
+        
+        if (read == '\r' || read == '\n' || read == ' ') {
+            text = "";
+        }
+        
         if (!predictor.isValidChar(read) || keyEvent.isAltPressed() || keyEvent.isCtrlPressed()) {
             return;
         }
 
-        if (read == '\r' || read == '\n' || read == ' ') {
-            text = "";
-        }
+        
 
         text += Character.toLowerCase(read);
 
