@@ -21,10 +21,11 @@ public class ProbabilitiesDatabase {
 
 	public void initialize(String filename) {
 		System.out.println("Begin to load " + filename);
+		BufferedReader bufferedReader = null;
 		try {
-			final BufferedReader br = new BufferedReader(new FileReader("file.txt"));
+			bufferedReader = new BufferedReader(new FileReader(filename));
 			final Queue<Character> queue = new LinkedList<>();
-			int read = br.read();
+			int read = bufferedReader.read();
 			while (read != -1) {
 				final char c = Character.toLowerCase((char) read);
 				if (alphabet.contains("" + c)) {
@@ -41,10 +42,16 @@ public class ProbabilitiesDatabase {
 					queue.clear();
 				}
 
-				read = br.read();
+				read = bufferedReader.read();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				bufferedReader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		System.out.println("Finish to load " + filename);
 	}
