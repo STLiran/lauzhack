@@ -4,9 +4,11 @@ package main
   * Created by blueur on 19/11/16.
   */
 class Predictor {
-  private val probs = new ProbabilitiesDatabase()
+  private val probs = new ProbabilitiesDatabase(3)
   private val alphabet = "abcdefghijklmnopqrstuvwxyz -'"
   private val n = 3
+
+  probs.initialize(???)
 
   def getNextChar(text: String): String = {
     /* Not enough chars to do a prediction */
@@ -17,7 +19,7 @@ class Predictor {
     val last = text.takeRight(2).toLowerCase()
 
     alphabet.sortBy(c -> {
-      probs.getNGramProb(last + c)/probs.getNGramProb(last)
+      probs.getNgramProbabilities(last + c)/probs.getNgramProbabilities(last)
     }).reverse
   }
 }
