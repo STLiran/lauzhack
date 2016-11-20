@@ -19,7 +19,7 @@ public class BackgroundListener implements KeyListener {
 
     public BackgroundListener() {
         text = "";
-        predictor = new Predictor(12, 3);
+        predictor = new Predictor(10, 3);
         keyboard = new KeyboardMessageDisplay();
         listener = new GlobalKeyListener();
         active = new ArrayList<>();
@@ -34,7 +34,7 @@ public class BackgroundListener implements KeyListener {
     public void keyReleased(KeyEvent keyEvent) {
         char read = Character.toLowerCase((char)keyEvent.getVirtualKeyCode());
         
-        if (read == '\r' || read == '\n') {
+        if (read == '\r' || read == '\n' || read == ' ') {
             text = "";
         }
         
