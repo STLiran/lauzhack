@@ -175,11 +175,15 @@ public class ProbabilitiesDatabase {
 	public void loadOrCreate(String textFilename, String saveFilename) {
 		final File saveFile = new File(saveFilename);
 		if (saveFile.exists()) {
-			loadSave(saveFilename);
-		} else {
-			loadTextFile(textFilename);
-			createSave(saveFilename);
+			try {
+				loadSave(saveFilename);
+				return;
+			} catch (Exception e) {
+			}
 		}
+		loadTextFile(textFilename);
+		createSave(saveFilename);
+
 	}
 
 }
