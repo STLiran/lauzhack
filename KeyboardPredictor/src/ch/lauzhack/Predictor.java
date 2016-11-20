@@ -26,6 +26,12 @@ public class Predictor {
         probs.loadTextFile("big.txt");
         probs.loadTextFile("words2.txt");
         kb.showHeart(false);
+
+        try {
+            Thread.sleep(500);
+        } catch (Exception e) {
+        }
+
         listener.keyPressed(null);
     }
 
