@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AXA アーユーOK?</title>
+  <script type="text/javascript" src='jquery-3.1.1.min.js'></script>
+  <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="pure.css">  
+  <style>
+
+  @font-face {
+    font-family: 'Droid Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Droid Sans'), local('DroidSans'), url("/droid.ttf") format('truetype');
+  }
+    body {
+      background-color : #E6E6E7;
+      color : #353538;
+      padding : 16px;
+      font-family:  'Droid Sans', sans-serif;
+    }
+
+    .splash {
+      width: 80%;
+      height: 50%;
+      margin: auto;
+      background-color : #ffffff;
+      border-radius : 2px;
+      padding : 16px;
+      padding-top : 8px;
+    }
+
+    .splash h1 {
+      text-align : center;
+    }
+
+    .wifiItem {
+      padding : 16px;
+      position: relative;
+      top : 0px;
+      left : 0px;
+      cursor : pointer;
+    }
+    
+    .wifiStatus {
+      width : 34px;
+      position : absolute;
+      right : 16px;
+      top : 6px;
+    }
+
+
+    .wifiItem:not(:last-child) {
+       border-bottom : 1px solid  #E6E6E7;
+       font-weight: bold;
+    }
+
+    @media (min-width: 48em) {
+      .splash {
+          width: 50%;
+          height: 50%;
+      }
+    }
+
+    #encryptionFail {
+      background-color : #F99B08;
+      color : #fff;
+      border-radius: 2px;
+      padding : 8px;
+    }
+
+    #networkSelectionError {
+      background-color : #F99B08;
+      color : #fff;
+      border-radius: 2px;
+      padding : 8px;
+    }
+
+  </style>
+</head>
+  <body>
+    <div class='splash'>
+      <h1>AXA アーユーOK?</h1>
+      <div id='networkSelection'>
+
+        <h2>インターネットへの接続に使用する無線LANを選択してください</h2>
+        
+        <div id='networkSelectionError' style="display:none">
+          インターネットに接続できません。
+        </div>
+
+        <div id='wifiList'>
+          <div style='text-align : center'>
+            <img src='loading.png'  style='margin-top : 50px; width : 100px'/>
+            <b>ローディング...</b>
+          </div>
+        </div>
+      </div>
+
+
+      <div id='encryptionForm' style="display:none">
+
+        <h2>あなたの資格情報を指定することができますか？</h2>
+        <div id='encryptionFail' style="display:none">
+          インターネットに接続できません。あなたは正しいパスワードを設定しましたか？
+        </div>
+        <div id='wifiname'>
+          
+        </div>
+        <br/>
+        <div>
+          <input id='wifiCode' type='password' placeholder="WIFIのパスワード" style='border : none; border-bottom : 2px solid #353538; width : 100%; font-size : 25px'/>
+        </div><br/>
+        <div>
+          <input type='button' class='pure-button' value='コネクト' style='color :#fff; background-color: #353538; width : 100%; cursor:pointer' id='submitWifi' />
+        </div>
+        <br/>
+        <div>
+          <input type='button' onclick='refreshSSIDs()' class='pure-button' value='バック' style='background-color: #fff; width : 100%; cursor:pointer; color : #353538; border : 2px solid #353538; background-image: url("./left.png"); background-repeat: no-repeat; background-size: contain; background-position-x: 5px;'  />
+        </div>
+      </div>
+
+      <div id='loading' style='text-align : center; display : none'>
+        <img src='loading.png'  style='margin-top : 50px; width : 100px'/><br/>
+        <b>ローディング...</b>
+      </div>
+
+      <div id='success' style='text-align : center; display : none'>
+        <img src='success.png'  style='margin-top : 50px; width : 100px'/><br/><br/>
+        <h2>成功！すべてが動作しています！</h2>
+      </div>
+
+
+    </div>
+
+    <script>
+    
+
+      function onSSIDs(data) {
+        WIFI.ssid = null;
+        WIFI.pwd = null;
+        var ssid = [];
+        for (var key in data) {
+          ssid.push(data[key])
+        }
+
+        ssid.sort(function(a,b){
+          if (a.ssid.toLowerCase() > b.ssid.toLowerCase()) {
+            return 1;
+          }
+          return -1;
+        });
+        var list = document.getElementById('wifiList');
+        list.innerHTML = "";
+        for (var i = 0; i < ssid.length; ++i) {
+          var div = document.createElement('div');
+          var islock = "";
+          if (ssid[i].encryption == "on") {
+            islock = "lock";
+          }
+
+          var quality = parseInt(ssid[i].quality.split('/')[0]);
+          var v = (quality / 70) * 6 | 0;
+          if (v > 4) {
+            v = 4;
+          }
+
+
+          var img = "wifi" + v + islock;
+          div.innerHTML = ssid[i].ssid + "&nbsp;<img src='" + img + ".png' class='wifiStatus' />";
+          div.className = "wifiItem";
+          div.setAttribute("data-address", ssid[i].address);
+          div.setAttribute("data-ssid", ssid[i].ssid);
+          div.setAttribute("data-encryption", ssid[i].encryption);
+          div.addEventListener("click", wifiSelected);
+
+          if (ssid[i].ssid.trim().length > 1 && ssid[i].ssid != "\\x00") {
+            list.appendChild(div);
+          }
+        }
+        $("#networkSelection").show();
+        $('#wifiList').show();
+        $("#loading").hide();
+      }
+
+      var WIFI = {};
+      function wifiSelected(event) {
+        var address = event.target.getAttribute("data-address");
+        var ssid = event.target.getAttribute("data-ssid");
+        var encryption = event.target.getAttribute("data-encryption");
+
+        WIFI.address = address;
+        WIFI.ssid = ssid;
+
+
+        if (encryption == "on") {
+          document.getElementById('wifiname').innerHTML = "";
+          document.getElementById('wifiname').appendChild(event.target);
+          $("#encryptionFail").hide();
+          $("#encryptionForm").show();
+          $("#networkSelection").hide();
+
+          $('#submitWifi').on('click', sendWifiEncryption)
+        }
+        else {
+          $("#networkSelection").hide();
+           sendWifi();
+        }
+
+
+      }
+
+      function sendWifi() {
+        WIFI.pwd = null;
+        $("#networkSelection").hide();
+        $('#loading').show();
+        $.get('/setSSID/' + encodeURIComponent(WIFI.ssid), function() {
+          setTimeout(checkConnectionStatus, 500);
+        });
+      }
+
+      function sendWifiEncryption() {
+        var pwd = $('#wifiCode').val();
+        WIFI.pwd = pwd;
+        $('#loading').show();
+        $("#encryptionForm").hide();
+        $.get('/setSSID/' + encodeURIComponent(WIFI.ssid) + '/' + encodeURIComponent(pwd), function() {
+          setTimeout(checkConnectionStatus, 500);
+        });
+      }
+
+      function checkConnectionStatus() {
+        $.get('/connectionStatus', function(status) {
+     
+          if (status == 'FAIL') {
+            $('#loading').hide();
+            if (WIFI.pwd) {
+              $("#encryptionForm").show();
+              $("#encryptionFail").show();
+            }
+            else {
+              $("#networkSelection").show();
+              $("#networkSelectionError").show();
+            }
+          }
+          else if (status == 'SUCCESS') {
+            $('#loading').hide();
+            $('#success').show();
+          }
+          else {
+            setTimeout(checkConnectionStatus, 500);
+          }
+        }).fail(function() {
+          setTimeout(checkConnectionStatus, 500);
+        })
+      }
+
+      function showSuccessThenLaunchScan() {
+        $('#loading').hide();
+        $('#success').show();
+      }
+
+
+      function showFail() {
+        $('#loading').show();
+      }
+
+      function refreshSSIDs() {
+        $('#encryptionForm').hide();
+        $('#networkSelectionError').hide();
+        $('#wifiList').hide();
+        $('#loading').show();
+        $.getJSON('/getSSID', onSSIDs);
+      }
+
+      refreshSSIDs();
+    </script>
+  </body>
+</html>

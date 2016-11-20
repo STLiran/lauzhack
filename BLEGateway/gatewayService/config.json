@@ -1,0 +1,14 @@
+{
+    "isProduction": true,
+    "backendToken": "saEbYNtHbxZ6ThHE",
+    "backendURL": "http://beacon-event.ael.li/data",
+    "scanInterval": 15000,
+    "differentiateBeaconsAndButtons": true,
+    "majorsForButtons": [20, 21, 22, 23, 24],
+    "uuidForEMDevice": "EMSENSORDEVICEFORMAT00000001",
+    "dummyGatewayID": "NO_MAC_ADDRESS_AVAILABLE",
+    "connectionTestURL": "http://beacon-event.ael.li/test",
+    "epflWiFiURL": "https://enclair.epfl.ch/login.php",
+    "nbOfWiFiScans": 3,
+    "wifiScansInterval": 10000
+}
