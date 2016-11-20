@@ -34,7 +34,7 @@ public class BackgroundListener implements KeyListener {
     public void keyReleased(KeyEvent keyEvent) {
         char read = Character.toLowerCase((char)keyEvent.getVirtualKeyCode());
         
-        if (read == '\r' || read == '\n' || read == ' ') {
+        if (read == '\r' || read == '\n') {
             text = "";
         }
         
@@ -42,7 +42,11 @@ public class BackgroundListener implements KeyListener {
             return;
         }
 
-        text += Character.toLowerCase(read);
+        if (read == ' ') {
+            text = "";
+        } else {
+            text += Character.toLowerCase(read);
+        }
 
         List<CharProbPair> letters = predictor.getNextChar(text);
 
