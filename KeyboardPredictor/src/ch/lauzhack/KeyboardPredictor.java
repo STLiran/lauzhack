@@ -8,6 +8,8 @@ public class KeyboardPredictor {
 		LogiLED.LogiLedSetLighting(0, 0, 0);
 
         BackgroundListener listener = new BackgroundListener();
+//        LogiLED.LogiLedStopEffects();
+		LogiLED.LogiLedSetLighting(0, 0, 0);
 
         try {
             System.in.read();

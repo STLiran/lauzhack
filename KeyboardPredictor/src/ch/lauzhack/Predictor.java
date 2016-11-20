@@ -22,7 +22,7 @@ public class Predictor {
         probs.loadTextFile("big.txt");
         probs.loadTextFile("words2.txt");
         kb.showHeart(false);
-		LogiLED.LogiLedSetLighting(0, 0, 0);
+//		LogiLED.LogiLedSetLighting(0, 0, 0);
     }
 
     public boolean isValidChar(char c) {
