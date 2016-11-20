@@ -50,9 +50,7 @@ public class KeyboardMessageDisplay {
 		LogiLED.LogiLedPulseSingleKey(LogiLED.J, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.I, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.EIGHT, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
-//		LogiLED.LogiLedPulseSingleKey(LogiLED.SEVEN, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.Y, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
-//		LogiLED.LogiLedPulseSingleKey(LogiLED.SIX, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.FIVE, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.R, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.F, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
@@ -69,9 +67,7 @@ public class KeyboardMessageDisplay {
 			LogiLED.LogiLedStopEffectsOnKey(LogiLED.J);
 			LogiLED.LogiLedStopEffectsOnKey(LogiLED.I);
 			LogiLED.LogiLedStopEffectsOnKey(LogiLED.EIGHT);
-//			LogiLED.LogiLedStopEffectsOnKey(LogiLED.SEVEN, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 			LogiLED.LogiLedStopEffectsOnKey(LogiLED.Y);
-//			LogiLED.LogiLedStopEffectsOnKey(LogiLED.SIX, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 			LogiLED.LogiLedStopEffectsOnKey(LogiLED.FIVE);
 			LogiLED.LogiLedStopEffectsOnKey(LogiLED.R);
 			LogiLED.LogiLedStopEffectsOnKey(LogiLED.F);
