@@ -9,50 +9,66 @@ import java.util.ArrayList;
  */
 public class BeaconDiscovery {
 
-    public static final ArrayList<RemoteDevice> devicesDiscovered = new ArrayList<RemoteDevice>();
+	private static ArrayList<RemoteDevice> devicesDiscovered, devicesMemorized;
+	private static DiscoveryListener listener;
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-
-        final Object inquiryCompletedEvent = new Object();
-
-        devicesDiscovered.clear();
-
-        DiscoveryListener listener = new DiscoveryListener() {
-
-            public void deviceDiscovered(RemoteDevice btDevice, DeviceClass cod) {
-            	if (!devicesDiscovered.contains(btDevice)) {
+    private final static Object inquiryCompletedEvent = new Object();
+	
+	public BeaconDiscovery() {
+		devicesDiscovered = new ArrayList<RemoteDevice>();
+	    devicesDiscovered.clear();
+	    devicesMemorized = new ArrayList<RemoteDevice>();
+	    devicesMemorized.clear();
+	
+	    // Listener on bluetooth devices discovery events
+	    listener = new DiscoveryListener() {
+	        public void deviceDiscovered(RemoteDevice btDevice, DeviceClass cod) {
+                devicesDiscovered.add(btDevice);
+	        	if (!devicesMemorized.contains(btDevice)) {
 	                System.out.println("Device " + btDevice.getBluetoothAddress() + " found");
-	                devicesDiscovered.add(btDevice);
+	                devicesMemorized.add(btDevice);
 	                try {
 	                    System.out.println("     name " + btDevice.getFriendlyName(false));
 	                } catch (IOException cantGetDeviceName) {
 	                }
-            	}
-            }
-
-            public void inquiryCompleted(int discType) {
-                System.out.println("Device Inquiry completed!");
-                synchronized(inquiryCompletedEvent){
-                    inquiryCompletedEvent.notifyAll();
-                }
-            }
-
-            public void serviceSearchCompleted(int transID, int respCode) {
-            }
-
-            public void servicesDiscovered(int transID, ServiceRecord[] servRecord) {
-            }
-        };
-
-        while (true) {
-	        synchronized(inquiryCompletedEvent) {
-	            boolean started = LocalDevice.getLocalDevice().getDiscoveryAgent().startInquiry(DiscoveryAgent.GIAC, listener);
-	            if (started) {
-	                System.out.println("wait for device inquiry to complete...");
-	                inquiryCompletedEvent.wait();
-	                System.out.println(devicesDiscovered.size() +  " device(s) found");
+	        	}
+	        }
+	
+	        public void inquiryCompleted(int discType) {
+	            synchronized(inquiryCompletedEvent){
+	            	for (RemoteDevice remoteDevice : devicesMemorized) {
+						if (!devicesDiscovered.contains(remoteDevice)) {
+							System.out.println("Lost device " + remoteDevice.getBluetoothAddress());
+							devicesMemorized.remove(remoteDevice);
+						} else
+							System.out.println(remoteDevice.getBluetoothAddress() + " is still here.");
+					}
+	            	
+	                inquiryCompletedEvent.notify();
+	                try {
+	                	System.out.println("I'll relaunch that");
+						discover();
+					} catch (BluetoothStateException | InterruptedException e) {
+						e.printStackTrace();
+					}
 	            }
 	        }
+	
+	        public void serviceSearchCompleted(int transID, int respCode) {
+	        }
+	
+	        public void servicesDiscovered(int transID, ServiceRecord[] servRecord) {
+	        }
+	    };
+	}
+	
+	public void discover() throws InterruptedException, BluetoothStateException {
+        synchronized(inquiryCompletedEvent) {
+        	devicesDiscovered.clear();
+            boolean started = LocalDevice.getLocalDevice().getDiscoveryAgent().startInquiry(DiscoveryAgent.GIAC, listener);
+            if (started) {
+                inquiryCompletedEvent.wait();
+            }
         }
-    }
+	}
 }
