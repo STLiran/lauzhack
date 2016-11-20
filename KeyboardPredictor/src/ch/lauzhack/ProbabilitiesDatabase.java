@@ -36,7 +36,7 @@ public class ProbabilitiesDatabase {
 				final char c = Character.toLowerCase((char) read);
 				if (alphabet.contains("" + c)) {
 					queue.add(c);
-					if (queue.size() > maxN) {
+					if (maxN > 0 && queue.size() > maxN) {
 						queue.remove();
 					}
 					final String ngram = iterableToString(queue);
@@ -88,7 +88,7 @@ public class ProbabilitiesDatabase {
 
 	public double getNgramProbabilities(String ngram) {
 		final int n = ngram.length();
-		if (n > maxN) {
+		if (maxN > 0 && n > maxN) {
 			throw new IllegalArgumentException("the ngram must not be longer than " + maxN);
 		}
 		if (ngramCounts.isEmpty() || totalCounts.isEmpty()) {
@@ -146,7 +146,7 @@ public class ProbabilitiesDatabase {
 			String read = bufferedReader.readLine();
 			final JSONObject jsonObject = new JSONObject(read);
 			final int loadedMaxN = jsonObject.getInt("maxN");
-			if (loadedMaxN < maxN) {
+			if (loadedMaxN != maxN) {
 				throw new IllegalArgumentException();
 			}
 			final JSONObject ngramCountsJsonObject = jsonObject.getJSONObject("ngramCounts");
