@@ -34,7 +34,7 @@ public class BackgroundListener implements KeyListener {
     public void keyReleased(KeyEvent keyEvent) {
         char read = Character.toLowerCase((char)keyEvent.getVirtualKeyCode());
         
-        if (read == '\r' || read == '\n' || read == ' ') {
+        if (read == '\r' || read == '\n') {
             text = "";
         }
         
@@ -42,26 +42,35 @@ public class BackgroundListener implements KeyListener {
             return;
         }
 
-        
-
         text += Character.toLowerCase(read);
 
-        System.out.println(text);
-
         List<CharProbPair> letters = predictor.getNextChar(text);
+
+        // No char predict ? Reset prediction
+        if (letters.get(0).getProbability() == 0) {
+            text = "" + read;
+            letters = predictor.getNextChar(text);
+        }
+
+        System.out.println("Input: " + text);
 
         // Turn off old keys
         for (CharProbPair old : active) {
             keyboard.ShowLetter(old.getChar(), 0, 0, 0);
         }
 
-        active = letters.subList(0, 3);
+        active.clear();
+
+        for (CharProbPair key : letters) {
+            if (key.getProbability() >= 0.01) {
+                active.add(key);
+            }
+        }
 
         // Turn on new keys
         int intensity = 100;
         for (CharProbPair key : active) {
             keyboard.ShowLetter(key.getChar(), intensity, 0, 0);
-            intensity -= 33;
         }
 
         for (CharProbPair pair : letters) {
