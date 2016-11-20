@@ -66,4 +66,8 @@ public class Predictor {
 
         return letters;
     }
+
+    public String getAlphabet() {
+        return alphabet;
+    }
 }

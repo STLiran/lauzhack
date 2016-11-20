@@ -21,9 +21,9 @@ public class BackgroundListener implements KeyListener {
         keyboard = new KeyboardMessageDisplay();
         listener = new GlobalKeyListener();
         active = new ArrayList<>();
-        history = new HistoryList();
         listener.addKeyListener(this);
         predictor = new Predictor(this);
+        history = new HistoryList(predictor.getAlphabet());
         predictor.load();
     }
 
@@ -43,7 +43,7 @@ public class BackgroundListener implements KeyListener {
             history.clear();
         }
 
-        if (read != '\b' && read != ' ' && (!predictor.isValidChar(read) || keyEvent.isAltPressed() || keyEvent.isCtrlPressed())) {
+        if (read != '\b' && read != ' ' && (keyEvent.isAltPressed() || keyEvent.isCtrlPressed())) {
             return;
         }
 
