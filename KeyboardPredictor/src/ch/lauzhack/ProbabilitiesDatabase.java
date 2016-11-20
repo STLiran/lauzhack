@@ -19,7 +19,7 @@ public class ProbabilitiesDatabase {
 	private final Map<String, Long> ngramCounts = new TreeMap<>();
 	private final Map<Integer, Long> totalCounts = new TreeMap<>();
 	private final int maxN;
-	private final String alphabet = "abcdefghijklmnopqrstuvwxyz -'";
+	private final String alphabet = "abcdefghijklmnopqrstuvwxyz-'";
 
 	public ProbabilitiesDatabase(int maxN) {
 		this.maxN = maxN;
