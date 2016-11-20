@@ -34,7 +34,7 @@ public class ProbabilitiesDatabase {
 			int read = bufferedReader.read();
 			while (read != -1) {
 				final char c = Character.toLowerCase((char) read);
-				if (alphabet.contains("" + c)) {
+				if ((alphabet + ' ').contains("" + c)) {
 					queue.add(c);
 					if (maxN > 0 && queue.size() > maxN) {
 						queue.remove();
@@ -43,6 +43,9 @@ public class ProbabilitiesDatabase {
 					final int n = ngram.length();
 					for (int i = 0; i < n; i++) {
 						addNgram(ngram.substring(i, n));
+					}
+					if (c == ' ') {
+						queue.clear();
 					}
 				} else {
 					queue.clear();
@@ -88,6 +91,9 @@ public class ProbabilitiesDatabase {
 
 	public double getNgramProbabilities(String ngram) {
 		final int n = ngram.length();
+		if (n == 0) {
+			return 1;
+		}
 		if (maxN > 0 && n > maxN) {
 			throw new IllegalArgumentException("the ngram must not be longer than " + maxN);
 		}
