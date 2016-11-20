@@ -12,52 +12,52 @@ import java.util.List;
  */
 public class BackgroundListener implements KeyListener {
     private GlobalKeyListener listener;
-    private String text;
     private List<CharProbPair> active;
+    private HistoryTree history;
     private Predictor predictor;
     private KeyboardMessageDisplay keyboard;
 
     public BackgroundListener() {
-        text = "";
         predictor = new Predictor(-1);
         keyboard = new KeyboardMessageDisplay();
         listener = new GlobalKeyListener();
         active = new ArrayList<>();
+        history = new HistoryTree();
         listener.addKeyListener(this);
     }
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-    }
+        int intRead = keyEvent.getVirtualKeyCode();
+        char read = Character.toLowerCase((char)intRead);
 
-    @Override
-    public void keyReleased(KeyEvent keyEvent) {
-        char read = Character.toLowerCase((char)keyEvent.getVirtualKeyCode());
-        
         if (read == '\r' || read == '\n') {
-            text = "";
+            history.clear();
         }
-        
-        if (!predictor.isValidChar(read) || keyEvent.isAltPressed() || keyEvent.isCtrlPressed()) {
+
+        if (read != '\b' && (!predictor.isValidChar(read) || keyEvent.isAltPressed() || keyEvent.isCtrlPressed())) {
             return;
         }
 
         if (read == ' ') {
-            text = "";
+            history.clear();
+        } else if (read == '\b') {      // Backspace detection
+            history.erase();
         } else {
-            text += Character.toLowerCase(read);
+            history.addChar(read);
         }
 
-        List<CharProbPair> letters = predictor.getNextChar(text);
+        List<CharProbPair> letters = predictor.getNextChar(history.getString());
 
         // No char predict ? Reset prediction
         CharProbPair first = letters.get(0);
         if (first.getProbability() == 0) {
-            text = "" + read;
-            letters = predictor.getNextChar(text);
+            history.erase();
+            history.addChar(read);
+            letters = predictor.getNextChar(history.getString());
         }
 
-        System.out.println("Input: " + text);
+        System.out.println("Input: " + history.getString());
 
         // Turn off old keys
         for (CharProbPair old : active) {
@@ -79,13 +79,17 @@ public class BackgroundListener implements KeyListener {
         }
 
         // Reached end of word
-        if (first.getChar() == ' ' && first.getProbability() == 1) {
-            text = "";
-        }
+        //if (first.getChar() == ' ' && first.getProbability() == 1) {
+        //    history.clear();
+        //}
 
         for (CharProbPair pair : letters) {
             System.out.print(String.format("%s (%.2f)", pair.getChar(), pair.getProbability()));
         }
         System.out.println();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
     }
 }

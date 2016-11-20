@@ -25,7 +25,6 @@ public class Predictor {
 
     public double computeProbability(String prev, char next) {
         double denom = probs.getNgramProbabilities(prev);
-        System.out.println(prev + ": " + denom);
         if (denom <= 0) {
             return 0;
         }
