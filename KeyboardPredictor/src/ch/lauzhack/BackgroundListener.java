@@ -13,29 +13,37 @@ import java.util.List;
 public class BackgroundListener implements KeyListener {
     private GlobalKeyListener listener;
     private List<CharProbPair> active;
-    private HistoryTree history;
+    private HistoryList history;
     private Predictor predictor;
     private KeyboardMessageDisplay keyboard;
 
     public BackgroundListener() {
-        predictor = new Predictor(-1);
         keyboard = new KeyboardMessageDisplay();
         listener = new GlobalKeyListener();
         active = new ArrayList<>();
-        history = new HistoryTree();
         listener.addKeyListener(this);
+        predictor = new Predictor(this);
+        history = new HistoryList(predictor.getAlphabet());
+        predictor.load();
     }
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        int intRead = keyEvent.getVirtualKeyCode();
-        char read = Character.toLowerCase((char)intRead);
+        int intRead;
+        char read;
+
+        if (keyEvent == null) {
+            read = ' ';
+        } else {
+            intRead = keyEvent.getVirtualKeyCode();
+            read = Character.toLowerCase((char) intRead);
+        }
 
         if (read == '\r' || read == '\n') {
             history.clear();
         }
 
-        if (read != '\b' && (!predictor.isValidChar(read) || keyEvent.isAltPressed() || keyEvent.isCtrlPressed())) {
+        if (read != '\b' && read != ' ' && (keyEvent.isAltPressed() || keyEvent.isCtrlPressed())) {
             return;
         }
 

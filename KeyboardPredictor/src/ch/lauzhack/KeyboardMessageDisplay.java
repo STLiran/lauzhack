@@ -44,14 +44,13 @@ public class KeyboardMessageDisplay {
 	}
 	
 	public void showHeart(boolean show) {
+		if(show) {
 		LogiLED.LogiLedPulseSingleKey(LogiLED.SPACE, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.N, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.J, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.I, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.EIGHT, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
-//		LogiLED.LogiLedPulseSingleKey(LogiLED.SEVEN, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.Y, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
-//		LogiLED.LogiLedPulseSingleKey(LogiLED.SIX, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.FIVE, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.R, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.F, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
@@ -61,8 +60,25 @@ public class KeyboardMessageDisplay {
 		LogiLED.LogiLedPulseSingleKey(LogiLED.H, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.B, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
 		LogiLED.LogiLedPulseSingleKey(LogiLED.G, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
-		LogiLED.LogiLedPulseSingleKey(LogiLED.T, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);
-		
+		LogiLED.LogiLedPulseSingleKey(LogiLED.T, 0, 0, 0, 100, 0, 0, PULSEDURATION, show);		
+		} else {
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.SPACE);
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.N);
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.J);
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.I);
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.EIGHT);
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.Y);
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.FIVE);
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.R);
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.F);
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.V);
+
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.U);
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.H);
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.B);
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.G);
+			LogiLED.LogiLedStopEffectsOnKey(LogiLED.T);		
+		}
 	}
 	
 	private void wait(int ms){

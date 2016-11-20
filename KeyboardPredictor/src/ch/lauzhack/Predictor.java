@@ -4,19 +4,35 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.logitech.gaming.LogiLED;
+import de.ksquared.system.keyboard.KeyEvent;
+
 /**
  * Created by Loic on 19.11.2016.
  */
 public class Predictor {
     private ProbabilitiesDatabase probs;
     private String alphabet = "abcdefghijklmnopqrstuvwxyz -'";
-    private int n;
+    private BackgroundListener listener;
 
-    public Predictor(int n) {
-        this.probs = new ProbabilitiesDatabase(n);
-        this.n = n;
+    public Predictor(BackgroundListener listener) {
+        this.probs = new ProbabilitiesDatabase(-1);
+        this.listener = listener;
+    }
+
+    public void load() {
+        KeyboardMessageDisplay kb = new KeyboardMessageDisplay();
+        kb.showHeart(true);
         probs.loadTextFile("big.txt");
         probs.loadTextFile("words2.txt");
+        kb.showHeart(false);
+
+        try {
+            Thread.sleep(500);
+        } catch (Exception e) {
+        }
+
+        listener.keyPressed(null);
     }
 
     public boolean isValidChar(char c) {
@@ -49,5 +65,9 @@ public class Predictor {
         }
 
         return letters;
+    }
+
+    public String getAlphabet() {
+        return alphabet;
     }
 }
