@@ -3,6 +3,7 @@ package ch.lauzhack;
 import java.io.IOException;
 import javax.bluetooth.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Minimal Device Discovery example.
@@ -38,7 +39,7 @@ public class BeaconDiscovery {
 	                	String name = btDevice.getFriendlyName(false);
 	                    System.out.println("     name " + name);
 	                    
-	                    stop |= (name == stoppingCondition);
+	                    stop |= (name.equalsIgnoreCase(stoppingCondition));
 	                } catch (IOException cantGetDeviceName) {
 	                }
 	        	}
@@ -49,9 +50,11 @@ public class BeaconDiscovery {
 	            	for (RemoteDevice remoteDevice : devicesMemorized) {
 						if (!devicesDiscovered.contains(remoteDevice)) {
 							System.out.println("Lost device " + remoteDevice.getBluetoothAddress());
-							devicesMemorized.remove(remoteDevice);
 						}
 					}
+
+					devicesMemorized.clear();
+					devicesMemorized.addAll(devicesDiscovered);
 	            	
 	                inquiryCompletedEvent.notifyAll();
 	            }

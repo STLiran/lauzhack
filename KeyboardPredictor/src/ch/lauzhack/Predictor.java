@@ -1,8 +1,6 @@
 package ch.lauzhack;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import com.logitech.gaming.LogiLED;
 import de.ksquared.system.keyboard.KeyEvent;
@@ -14,6 +12,7 @@ public class Predictor {
     private ProbabilitiesDatabase probs;
     private String alphabet = "abcdefghijklmnopqrstuvwxyz -'";
     private BackgroundListener listener;
+    private Timer timer;
 
     public Predictor(BackgroundListener listener) {
         this.probs = new ProbabilitiesDatabase(-1);
@@ -27,12 +26,15 @@ public class Predictor {
         probs.loadTextFile("words2.txt");
         kb.showHeart(false);
 
-        try {
-            Thread.sleep(500);
-        } catch (Exception e) {
-        }
-
-        listener.keyPressed(null);
+        LogiLED.LogiLedSetLighting(0, 0, 0);
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                LogiLED.LogiLedSetLighting(0, 0, 0);
+                listener.keyPressed(null);
+            }
+        }, 2000);
     }
 
     public boolean isValidChar(char c) {
