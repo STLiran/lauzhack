@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.logitech.gaming.LogiLED;
+
 /**
  * Created by Loic on 19.11.2016.
  */
@@ -15,8 +17,12 @@ public class Predictor {
     public Predictor(int n) {
         this.probs = new ProbabilitiesDatabase(n);
         this.n = n;
+        KeyboardMessageDisplay kb = new KeyboardMessageDisplay();
+        kb.showHeart(true);
         probs.loadTextFile("big.txt");
         probs.loadTextFile("words2.txt");
+        kb.showHeart(false);
+		LogiLED.LogiLedSetLighting(0, 0, 0);
     }
 
     public boolean isValidChar(char c) {
