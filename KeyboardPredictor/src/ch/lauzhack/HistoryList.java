@@ -6,10 +6,10 @@ import java.util.List;
 /**
  * Created by Loic on 20.11.2016.
  */
-public class HistoryTree {
+public class HistoryList {
     private List<String> history;
 
-    public HistoryTree() {
+    public HistoryList() {
         history = new ArrayList<>();
         add("");
     }
