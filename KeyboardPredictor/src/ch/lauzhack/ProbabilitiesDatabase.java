@@ -91,6 +91,9 @@ public class ProbabilitiesDatabase {
 
 	public double getNgramProbabilities(String ngram) {
 		final int n = ngram.length();
+		if (n == 0) {
+			return 1;
+		}
 		if (maxN > 0 && n > maxN) {
 			throw new IllegalArgumentException("the ngram must not be longer than " + maxN);
 		}
