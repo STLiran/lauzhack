@@ -11,12 +11,12 @@ public class Predictor {
     private ProbabilitiesDatabase probs;
     private String alphabet = "abcdefghijklmnopqrstuvwxyz -'";
     private int n;
-    private int min_n;
 
     public Predictor(int n) {
         this.probs = new ProbabilitiesDatabase(n);
         this.n = n;
-        probs.loadOrCreate("big.txt", "save.txt");
+        probs.loadTextFile("big.txt");
+        probs.loadTextFile("words2.txt");
     }
 
     public boolean isValidChar(char c) {
