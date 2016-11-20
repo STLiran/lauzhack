@@ -19,7 +19,7 @@ public class BackgroundListener implements KeyListener {
 
     public BackgroundListener() {
         text = "";
-        predictor = new Predictor(10, 3);
+        predictor = new Predictor(-1);
         keyboard = new KeyboardMessageDisplay();
         listener = new GlobalKeyListener();
         active = new ArrayList<>();

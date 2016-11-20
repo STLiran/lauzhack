@@ -13,10 +13,9 @@ public class Predictor {
     private int n;
     private int min_n;
 
-    public Predictor(int n, int min_n) {
+    public Predictor(int n) {
         this.probs = new ProbabilitiesDatabase(n);
         this.n = n;
-        this.min_n = min_n;
         probs.loadOrCreate("big.txt", "save.txt");
     }
 
@@ -41,17 +40,19 @@ public class Predictor {
         int variable_n = n;
         List<CharProbPair> letters = new ArrayList<>();
 
-        do {
-            String last = text.substring(Math.max(0, text.length() - (variable_n - 1)), text.length());
+        String last = text.substring(Math.max(0, text.length() - (variable_n - 1)), text.length());
 
+        letters.clear();
+        for (char c : alphabet.toCharArray()) {
+            letters.add(new CharProbPair(c, computeProbability(last, c)));
+        }
+        Collections.sort(letters);
+
+        // No prediction ? Only show space
+        if (letters.get(0).getProbability() == 0) {
             letters.clear();
-            for (char c : alphabet.toCharArray()) {
-                letters.add(new CharProbPair(c, computeProbability(last, c)));
-            }
-            Collections.sort(letters);
-
-            variable_n--;
-        } while(letters.get(0).getProbability() == 0 && variable_n > min_n);
+            letters.add(new CharProbPair(' ', 1.0));
+        }
 
         return letters;
     }
