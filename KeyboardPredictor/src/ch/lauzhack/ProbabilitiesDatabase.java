@@ -34,7 +34,7 @@ public class ProbabilitiesDatabase {
 			int read = bufferedReader.read();
 			while (read != -1) {
 				final char c = Character.toLowerCase((char) read);
-				if (alphabet.contains("" + c)) {
+				if ((alphabet + ' ').contains("" + c)) {
 					queue.add(c);
 					if (maxN > 0 && queue.size() > maxN) {
 						queue.remove();
@@ -44,18 +44,10 @@ public class ProbabilitiesDatabase {
 					for (int i = 0; i < n; i++) {
 						addNgram(ngram.substring(i, n));
 					}
-				} else {
 					if (c == ' ') {
-						queue.add(c);
-						if (maxN > 0 && queue.size() > maxN) {
-							queue.remove();
-						}
-						final String ngram = iterableToString(queue);
-						final int n = ngram.length();
-						for (int i = 0; i < n; i++) {
-							addNgram(ngram.substring(i, n));
-						}
+						queue.clear();
 					}
+				} else {
 					queue.clear();
 				}
 
