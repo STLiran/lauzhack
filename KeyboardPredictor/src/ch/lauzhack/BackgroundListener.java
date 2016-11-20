@@ -70,7 +70,7 @@ public class BackgroundListener implements KeyListener {
         // Turn on new keys
         int intensity = 100;
         for (CharProbPair key : active) {
-            keyboard.ShowLetter(key.getChar(), intensity, 0, 0);
+            keyboard.ShowLetter(key.getChar(), 0, intensity, 0);
         }
 
         for (CharProbPair pair : letters) {
