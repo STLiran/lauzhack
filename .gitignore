@@ -13,3 +13,5 @@ hs_err_pid*
 character-predictor/.idea/workspace.xml
 
 *.iml
+
+.DS_Store
