@@ -47,7 +47,8 @@ public class BackgroundListener implements KeyListener {
         List<CharProbPair> letters = predictor.getNextChar(text);
 
         // No char predict ? Reset prediction
-        if (letters.get(0).getProbability() == 0) {
+        CharProbPair first = letters.get(0);
+        if (first.getProbability() == 0) {
             text = "" + read;
             letters = predictor.getNextChar(text);
         }
@@ -71,6 +72,11 @@ public class BackgroundListener implements KeyListener {
         int intensity = 100;
         for (CharProbPair key : active) {
             keyboard.ShowLetter(key.getChar(), 0, intensity, 0);
+        }
+
+        // Reached end of word
+        if (first.getChar() == ' ' && first.getProbability() == 1) {
+            text = "";
         }
 
         for (CharProbPair pair : letters) {

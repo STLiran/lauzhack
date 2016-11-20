@@ -37,10 +37,9 @@ public class Predictor {
             return Collections.emptyList();
         }
 
-        int variable_n = n;
         List<CharProbPair> letters = new ArrayList<>();
 
-        String last = text.substring(Math.max(0, text.length() - (variable_n - 1)), text.length());
+        String last = text;
 
         letters.clear();
         for (char c : alphabet.toCharArray()) {
