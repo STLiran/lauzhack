@@ -15,11 +15,19 @@ public class Predictor {
     public Predictor(int n) {
         this.probs = new ProbabilitiesDatabase(n);
         this.n = n;
-        probs.initialize("big.txt");
+        probs.loadOrCreate("big.txt", "save.txt");
+    }
+
+    public boolean isValidChar(char c) {
+        return alphabet.contains("" + c);
     }
 
     public double computeProbability(String prev, char next) {
-        return probs.getNgramProbabilities(prev + next)/probs.getNgramProbabilities(prev);
+        double denom = probs.getNgramProbabilities(prev);
+        if (denom <= 0) {
+            return 0;
+        }
+        return probs.getNgramProbabilities(prev + next)/denom;
     }
 
     public List<CharProbPair> getNextChar(String text) {
