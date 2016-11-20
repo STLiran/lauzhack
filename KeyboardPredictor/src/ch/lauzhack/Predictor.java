@@ -32,11 +32,6 @@ public class Predictor {
     }
 
     public List<CharProbPair> getNextChar(String text) {
-    /* Not enough chars to do a prediction */
-        if (text.length() < 1) {
-            return Collections.emptyList();
-        }
-
         List<CharProbPair> letters = new ArrayList<>();
 
         String last = text;
