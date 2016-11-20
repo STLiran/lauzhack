@@ -109,9 +109,10 @@ public class ProbabilitiesDatabase {
 		BufferedWriter bufferedWriter = null;
 		try {
 			final File file = new File(filename);
-			if (!file.exists()) {
-				file.createNewFile();
+			if (file.exists()) {
+				file.delete();
 			}
+			file.createNewFile();
 			bufferedWriter = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
 			final JSONObject jsonObject = new JSONObject();
 			jsonObject.put("maxN", maxN);
